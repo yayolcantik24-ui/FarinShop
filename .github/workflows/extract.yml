@@ -1,0 +1,20 @@
+name: Extract ZIP
+on:
+  push:
+    paths:
+      - '*.zip'
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract all ZIP files
+        run: |
+          for file in *.zip; do
+            unzip -o "$file" -d .
+            rm "$file"
+          done
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Extract ZIP files"
+          file_pattern: '.'
